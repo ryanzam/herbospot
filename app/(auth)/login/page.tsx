@@ -1,3 +1,5 @@
+"use client";
+
 import { useSession, signIn } from '@/lib/auth-client/auth-client';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
@@ -130,7 +132,7 @@ const LoginPage = () => {
                     </div>
                 </div>
 
-                <div className="mt-6 grid grid-cols-2 gap-3">
+                <div className="mt-6">
                     <button
                         onClick={() => handleSocialLogin('google')}
                         disabled={isLoading}
