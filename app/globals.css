@@ -7,9 +7,9 @@
   --color-border: hsl(214.3 31.8% 91.4%);
 
   /* You likely also need these for your other custom classes */
-  --color-primary: hsl(222.2 47.4% 11.2%);
-  --color-secondary: hsl(210 40% 96.1%);
-  --color-dark: #1a1a1a;
+  --color-primary: #41531c;
+  --color-secondary: #949e32;
+  --color-dark: #181814;
 }
 
 @layer base {

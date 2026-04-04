@@ -4,6 +4,7 @@ import { useSession, signIn } from '@/lib/auth-client/auth-client';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { FiMail, FiLock, } from 'react-icons/fi';
 
@@ -26,12 +27,38 @@ const LoginPage = () => {
         e.preventDefault();
         setIsLoading(true);
 
-        // implement email/password login logic here later
+        try {
+            const res = await signIn.email({
+                email: formData.email,
+                password: formData.password
+            });
+
+            if (res.error) {
+                throw new Error(res.error.message || 'Failed to sign in');
+            }
+
+            toast.success('Signed in successfully!');
+            router.push('/');
+
+        } catch (error: any) {
+            toast.error(error.message || 'An error occurred during sign in');
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     const handleSocialLogin = async (provider: string) => {
         setIsLoading(true);
-        // implement social login logic here later
+
+        try {
+            await signIn.social({
+                provider,
+                callbackURL: '/',
+            });
+        } catch (error: any) {
+            toast.error(error.message || `Failed to login with ${provider}`);
+            setIsLoading(false);
+        }
     }
 
     return (
