@@ -7,6 +7,15 @@ export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "mongodb"
     }),
+
+    user: { modelName: "User" },
+    session: { modelName: "Session" },
+    account: { modelName: "Account" },
+
+    advanced: {
+        database: { generateId: false },
+    },
+
     emailAndPassword: {
         enabled: true,
         async hash(password: string) {
@@ -27,13 +36,5 @@ export const auth = betterAuth({
             clientId: process.env.GITHUB_CLIENT_ID!,
             clientSecret: process.env.GITHUB_CLIENT_SECRET!,
         },
-    },
-    session: {
-        cookieCache: {
-            maxAge: 7 * 24 * 60 * 60, // 7 days
-        },
-    },
-    user: {
-        modelName: 'user',
     },
 });
