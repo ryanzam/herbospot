@@ -58,6 +58,9 @@ model Session {
   token     String    @unique @map("session_token")
   userId    String    @map("user_id") @db.ObjectId
   expires   DateTime?
+  expiresAt DateTime? @map("expires_at")
+  ipAddress String?   @map("ip_address")
+  userAgent String?   @map("user_agent")
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
 
