@@ -3,7 +3,7 @@
 import { useSession, signIn } from '@/lib/auth-client/auth-client';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { FiMail, FiLock, } from 'react-icons/fi';
@@ -18,10 +18,11 @@ const LoginPage = () => {
         password: '',
     });
 
-    if (session) {
-        router.push('/');
-        return null;
-    }
+    useEffect(() => {
+        if (session && !isLoading) {
+            router.push("/");
+        }
+    }, [session, isLoading, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
