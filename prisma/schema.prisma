@@ -21,6 +21,8 @@ model User {
   // cart     Cart?
   sessions Session[]
   accounts Account[]
+  cart     Cart?
+  orders   Order[]
 
   @@map("users")
 }
@@ -30,12 +32,11 @@ model Account {
   userId   String  @map("user_id") @db.ObjectId
   password String? @map("password_hash")
 
-  // Better Auth specific fields
+  // Better Auth
   accountId  String  @map("provider_account_id") // Maps your existing field
   providerId String  @map("provider") // Maps your existing field
   type       String?
 
-  // NextAuth compatibility (Keep these if you have existing data)
   refresh_token String? @db.String
   access_token  String? @db.String
   expires_at    Int?
@@ -82,4 +83,85 @@ model VerificationToken {
 enum Role {
   user
   admin
+}
+
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  price       Float
+  category    String
+  images      String[]
+  stock       Int      @default(0)
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  @@index([category])
+  @@index([featured])
+  @@map("products")
+}
+
+model Cart {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String     @unique @map("user_id") @db.ObjectId
+  items       CartItem[]
+  totalAmount Float      @default(0) @map("total_amount")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  cartId    String @map("cart_id") @db.ObjectId
+  productId String @map("product_id") @db.ObjectId
+  name      String
+  price     Float
+  quantity  Int
+  image     String
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
+
+model Order {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   @map("user_id") @db.ObjectId
+  totalAmount     Float    @map("total_amount")
+  shippingAddress Json     @map("shipping_address")
+  paymentDetails  Json?    @map("payment_details")
+  esewaRefId      String?  @unique @map("esewa_ref_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items OrderItem[]
+
+  @@index([userId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String @map("order_id") @db.ObjectId
+  productId String @map("product_id") @db.ObjectId
+  name      String
+  price     Float
+  quantity  Int
+  image     String
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
 }
