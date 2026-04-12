@@ -36,9 +36,13 @@ const AdminProductsPage = () => {
         if (!confirm('Are you sure you want to delete this product?')) return;
 
         try {
-            await fetch(`/api/products/${id}`, {
+            const response = await fetch(`/api/products/${id}`, {
                 method: 'DELETE'
             });
+            if (!response.ok) {
+                toast.error('Failed to delete product');
+                return;
+            }
             toast.success('Product deleted successfully');
             fetchProducts();
         } catch (error) {
