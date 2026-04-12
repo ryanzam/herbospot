@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { FiGrid, FiList } from 'react-icons/fi';
 import SkeletonLoader from '@/components/ui/SkeletonLoader';
-import ProductFilters from '@/components/layout/products/ProductFilter';
-import ProductCard from '@/components/layout/products/ProductCard';
+import ProductFilters from '@/components/products/ProductFilter';
+import ProductCard from '@/components/products/ProductCard';
 
 interface Product {
     id: string;
