@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
         }
 
         if (maxPrice) {
-            where.price = { lte: parseFloat(maxPrice) };
+            where.price = { lte: parseInt(maxPrice) };
         }
 
         if (search) {
