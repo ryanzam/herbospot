@@ -1,18 +1,20 @@
 "use client"
 
+import { useCart } from '@/contexts/CartContext';
 import { signOut, useSession } from '@/lib/auth-client/auth-client';
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { FiMenu, FiShoppingCart, FiUser, FiX } from 'react-icons/fi';
+import CartDrawer from './CartDrawer';
 
 const Navbar = () => {
 
   const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { items } = useCart();
 
-  //const cartItemsCount = items.reduce((sum, item) => sum + item.quantity, 0);
-  const cartItemsCount = 0;
+  const cartItemsCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <>
@@ -39,7 +41,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative p-2 hover:bg-gray-100 rounded-full transition"
+                className="relative p-2 hover:bg-gray-100 rounded-full transition cursor-pointer"
               >
                 <FiShoppingCart size={24} />
                 {cartItemsCount > 0 && (
@@ -107,7 +109,8 @@ const Navbar = () => {
           )}
         </div>
       </nav>
-      {/* add cart drawer here */}
+
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   )
 }
