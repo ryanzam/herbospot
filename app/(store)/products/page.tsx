@@ -28,16 +28,17 @@ const ProductPage = () => {
 
     const category = searchParams.get('category') || '';
     const sort = searchParams.get('sort') || 'newest';
+    const maxPrice = searchParams.get('maxPrice') || '';
     const search = searchParams.get('search') || '';
 
     useEffect(() => {
         fetchProducts();
-    }, [category, sort, search, currentPage]);
+    }, [category, sort, maxPrice, search, currentPage]);
 
     const fetchProducts = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`/api/products?category=${category}&sort=${sort}&search=${search}&page=${currentPage}&limit=12`);
+            const response = await fetch(`/api/products?category=${category}&sort=${sort}&maxPrice=${maxPrice}&search=${search}&page=${currentPage}&limit=12`);
             const data = await response.json();
             setProducts(data.products);
             setTotalPages(data.totalPages);

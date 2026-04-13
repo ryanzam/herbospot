@@ -7,6 +7,7 @@ import SkeletonLoader from '@/components/ui/SkeletonLoader';
 import toast from 'react-hot-toast';
 import { FiMinus, FiPlus, FiShoppingCart, FiHeart } from 'react-icons/fi';
 import ProductImageGallery from '@/components/products/ProductImageGallery';
+import { useCart } from '@/contexts/CartContext';
 
 interface Product {
     id: string;
@@ -26,6 +27,7 @@ export default function ProductDetailPage() {
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const [selectedImage, setSelectedImage] = useState(0);
+    const { addItem } = useCart();
 
     useEffect(() => {
         fetchProduct();
@@ -53,6 +55,14 @@ export default function ProductDetailPage() {
             toast.error('Out of stock');
             return;
         }
+
+        addItem({
+            productId: product.id,
+            name: product.name,
+            price: product.price,
+            quantity,
+            image: product.images[0],
+        });
 
     };
 
