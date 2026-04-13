@@ -41,7 +41,7 @@ export default function ProductFilters() {
     const [filters, setFilters] = useState<FilterState>({
         category: searchParams.get('category') || 'all',
         sort: searchParams.get('sort') || 'newest',
-        priceRange: [0, 50000],
+        priceRange: [0, searchParams.get('maxPrice') ? parseInt(searchParams.get('maxPrice')!) : 5000],
         inStock: searchParams.get('inStock') === 'true',
     });
 

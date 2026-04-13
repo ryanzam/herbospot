@@ -1,3 +1,4 @@
+import { useCart } from '@/contexts/CartContext';
 import { Product } from '@/interfaces';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,6 +14,7 @@ interface ProductCardProps {
 const ProductCard = ({ product, viewMode }: ProductCardProps) => {
     const [isWishlisted, setIsWishlisted] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const { addItem } = useCart();
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -23,6 +25,13 @@ const ProductCard = ({ product, viewMode }: ProductCardProps) => {
             return;
         }
 
+        addItem({
+            productId: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+            image: product.images[0] || '/images/placeholder.jpg',
+        });
     };
 
     const handleWishlist = (e: React.MouseEvent) => {
