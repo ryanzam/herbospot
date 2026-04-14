@@ -28,7 +28,7 @@ const ProductCard = ({ product, viewMode }: ProductCardProps) => {
         addItem({
             productId: product.id,
             name: product.name,
-            price: product.price,
+            price: discountInfo.hasDiscount ? Math.round(Number(discountInfo.discountedPrice)) : product.price,
             quantity: 1,
             image: product.images[0] || '/images/placeholder.jpg',
         });

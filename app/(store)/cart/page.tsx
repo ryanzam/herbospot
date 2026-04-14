@@ -108,7 +108,7 @@ export default function CartPage() {
                         <div className="p-4 bg-gray-50">
                             <button
                                 onClick={clearCart}
-                                className="text-red-500 hover:text-red-600 flex items-center gap-2"
+                                className="text-red-500 hover:text-red-600 flex items-center gap-2 cursor-pointer"
                             >
                                 <FiTrash2 size={18} />
                                 Clear Cart
