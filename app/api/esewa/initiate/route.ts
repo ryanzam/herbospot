@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { orderId } = body;
 
+        console.log('Initiating eSewa payment for order:', body);
+
         const order = await prisma.order.findUnique({
             where: { id: orderId },
         });
@@ -66,7 +68,7 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json({
-            esewaUrl: process.env.NEXT_PUBLIC_ESEWA_URL,
+            esewaUrl: `${process.env.NEXT_PUBLIC_ESEWA_URL}`,
             esewaData,
         });
     } catch (error) {
