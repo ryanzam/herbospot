@@ -94,9 +94,9 @@ enum OrderStatus {
 }
 
 enum PaymentStatus {
-  pending
-  completed
-  failed
+  PENDING
+  COMPLETED
+  FAILED
 }
 
 enum PaymentMethod {
@@ -153,20 +153,24 @@ model CartItem {
 }
 
 model Order {
-  id              String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId          String      @map("user_id") @db.ObjectId
-  totalAmount     Float       @map("total_amount")
-  shippingAddress Json        @map("shipping_address")
-  paymentDetails  Json?       @map("payment_details")
-  esewaRefId      String?     @unique @map("esewa_ref_id")
-  orderStatus     OrderStatus @default(PENDING) @map("order_status")
-  createdAt       DateTime    @default(now()) @map("created_at")
-  updatedAt       DateTime    @updatedAt @map("updated_at")
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String        @map("user_id") @db.ObjectId
+  totalAmount     Float         @map("total_amount")
+  shippingAddress Json          @map("shipping_address")
+  paymentStatus   PaymentStatus @default(PENDING) @map("payment_status")
+  paymentMethod   PaymentMethod @default(esewa) @map("payment_method")
+  paymentDetails  Json?         @map("payment_details")
+  orderStatus     OrderStatus   @default(PENDING) @map("order_status")
+  esewaRefId      String?       @map("esewa_ref_id")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
 
   user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   items OrderItem[]
 
   @@index([userId])
+  @@index([orderStatus])
+  @@index([paymentStatus])
   @@map("orders")
 }
 

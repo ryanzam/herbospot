@@ -68,23 +68,14 @@ export default function CheckoutPage() {
                 }),
             });
 
-            if (!paymentResponse.ok) {
-                const errorText = await paymentResponse.text();
-                throw new Error(`Server Error: ${paymentResponse.status} - ${errorText}`);
-            }
-
-            const data = await paymentResponse.json();
-
-            if (!data || typeof data !== 'object') {
-                throw new Error("Invalid response format from server");
-            }
+            const { esewaUrl, esewaData } = await paymentResponse.json();
 
             // Create and submit eSewa form
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = data.esewaUrl;
+            form.action = esewaUrl;
 
-            Object.entries(data.esewaData).forEach(([key, value]) => {
+            Object.entries(esewaData).forEach(([key, value]) => {
                 const input = document.createElement('input');
                 input.type = 'hidden';
                 input.name = key;

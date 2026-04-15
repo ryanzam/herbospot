@@ -27,6 +27,8 @@ export default function CartPage() {
         );
     }
 
+    const grandTotal = totalAmount < 5000 ? totalAmount + 100 : totalAmount;
+
     return (
         <div className="container-custom py-8">
             <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
@@ -129,12 +131,12 @@ export default function CartPage() {
                             </div>
                             <div className="flex justify-between">
                                 <span>Shipping</span>
-                                <span>Free</span>
+                                <span>{totalAmount < 5000 ? 'Rs. 100' : 'Free'}</span>
                             </div>
                             <div className="border-t pt-3 mt-3">
                                 <div className="flex justify-between font-bold text-lg">
                                     <span>Total</span>
-                                    <span className="text-primary">Rs. {totalAmount.toLocaleString()}</span>
+                                    <span className="text-primary">Rs. {grandTotal.toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
