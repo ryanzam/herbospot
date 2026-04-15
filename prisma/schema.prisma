@@ -87,10 +87,20 @@ enum Role {
 
 enum OrderStatus {
   PENDING
-  PAID
+  PROCESSING
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+enum PaymentStatus {
+  pending
+  completed
+  failed
+}
+
+enum PaymentMethod {
+  esewa
 }
 
 model Product {

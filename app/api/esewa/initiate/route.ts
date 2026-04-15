@@ -16,8 +16,6 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { orderId } = body;
 
-        console.log('Initiating eSewa payment for order:', body);
-
         const order = await prisma.order.findUnique({
             where: { id: orderId },
         });
