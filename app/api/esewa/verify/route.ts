@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
 import crypto from 'crypto';
-import { OrderStatus } from '@prisma/client';
+import { OrderStatus, PaymentStatus } from '@prisma/client';
 
 export async function POST(req: NextRequest) {
     try {
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         const updatedOrder = await prisma.order.update({
             where: { id: order.id },
             data: {
-                paymentStatus: 'completed',
+                paymentStatus: PaymentStatus.completed,
                 orderStatus: OrderStatus.PROCESSING,
                 esewaRefId: refId,
                 paymentDetails: {

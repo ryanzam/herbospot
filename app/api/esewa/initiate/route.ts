@@ -29,8 +29,8 @@ export async function POST(req: NextRequest) {
         }
 
         // Generate eSewa signature
-        const totalAmount = order.totalAmount;
-        const transactionUUID = `${orderId}_${Date.now()}`;
+        const totalAmount = order.totalAmount < 5000 ? order.totalAmount + 100 : order.totalAmount;
+        const transactionUUID = `${orderId}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
         const productCode = process.env.ESEWA_PRODUCT_CODE!;
         const secret = process.env.ESEWA_SECRET!;
 

@@ -70,9 +70,9 @@ export async function POST(req: NextRequest) {
             headers: req.headers,
         });
 
-        /* if (!session || (session.user as any).role !== 'admin') {
+        if (!session || (session.user as any).role !== 'admin') {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        } */
+        }
 
         const body = await req.json();
         const product = await prisma.product.create({
