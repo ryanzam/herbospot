@@ -2,13 +2,23 @@ import { betterAuth } from 'better-auth';
 import { prisma } from '@/lib/db/prisma';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import bcrypt from "bcryptjs"
+import { Role } from '@prisma/client';
 
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "mongodb"
     }),
 
-    user: { modelName: "User" },
+    user: {
+        modelName: "User",
+        additionalFields: {
+            role: {
+                type: ["user", "admin"],
+                defaultValue: "user",
+                input: false
+            }
+        }
+    },
     session: { modelName: "Session" },
     account: { modelName: "Account" },
 
