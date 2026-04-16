@@ -1,4 +1,5 @@
 import { OrderStatus } from "@/types";
+import { PaymentStatus } from "@prisma/client";
 
 export interface Product {
     id: string;
@@ -35,7 +36,7 @@ export interface Order {
     items: OrderItem[];
     totalAmount: number;
     shippingAddress: ShippingAddress;
-    paymentStatus: 'pending' | 'completed' | 'failed';
+    paymentStatus: PaymentStatus;
     paymentMethod: 'esewa';
     orderStatus: OrderStatus;
     esewaRefId?: string;
