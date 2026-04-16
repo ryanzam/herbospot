@@ -1,29 +1,21 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { FiPackage, FiShoppingBag, FiUsers, FiBarChart2 } from 'react-icons/fi';
-import { useSession } from '@/lib/auth-client/auth-client';
+import { auth } from '@/lib/auth/better-auth';
+import { headers } from "next/headers";
 
-export default function AdminLayout({
+export default async function AdminLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const { data: session } = useSession();
-    const router = useRouter();
 
-    useEffect(() => {
-        if (!session) {
-            router.push('/login');
-        } else if ((session.user as any).role !== 'admin') {
-            router.push('/');
-        }
-    }, [session, router]);
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
 
     if (!session || (session.user as any).role !== 'admin') {
-        return null;
+        redirect('/login'); // Redirect non-admin users to the homepage
     }
 
     return (
