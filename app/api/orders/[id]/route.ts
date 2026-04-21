@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db/prisma';
 import { auth } from '@/lib/auth/better-auth';
+import { OrderStatus } from '@prisma/client';
 
 // GET - Get single order
 export async function GET(
@@ -51,7 +52,7 @@ export async function GET(
 // PUT - Update order status (Admin only)
 export async function PUT(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const session = await auth.api.getSession({
@@ -62,10 +63,14 @@ export async function PUT(
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const { orderStatus } = await req.json();
+        const { id } = await params;
+
+        const { orderStatus }: { orderStatus: OrderStatus } = await req.json();
+
+        console.log('Updating order status for order ID:', id, orderStatus);
 
         const order = await prisma.order.update({
-            where: { id: params.id },
+            where: { id },
             data: { orderStatus },
             include: {
                 items: true,
