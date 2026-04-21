@@ -71,11 +71,11 @@ export default function AdminOrdersPage() {
 
     const getStatusColor = (status: string) => {
         const colors = {
-            pending: 'bg-yellow-100 text-yellow-800',
-            processing: 'bg-blue-100 text-blue-800',
-            shipped: 'bg-purple-100 text-purple-800',
-            delivered: 'bg-green-100 text-green-800',
-            cancelled: 'bg-red-100 text-red-800',
+            PENDING: 'bg-yellow-100 text-yellow-800',
+            PROCESSING: 'bg-blue-100 text-blue-800',
+            SHIPPED: 'bg-purple-100 text-purple-800',
+            DELIVERED: 'bg-green-100 text-green-800',
+            CANCELLED: 'bg-red-100 text-red-800',
         };
         return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
     };
@@ -192,11 +192,11 @@ export default function AdminOrdersPage() {
                                         }}
                                         className="input-field"
                                     >
-                                        <option value="pending">Pending</option>
-                                        <option value="processing">Processing</option>
-                                        <option value="shipped">Shipped</option>
-                                        <option value="delivered">Delivered</option>
-                                        <option value="cancelled">Cancelled</option>
+                                        <option value="PENDING">Pending</option>
+                                        <option value="PROCESSING">Processing</option>
+                                        <option value="SHIPPED">Shipped</option>
+                                        <option value="DELIVERED">Delivered</option>
+                                        <option value="CANCELLED">Cancelled</option>
                                     </select>
                                 </div>
 
