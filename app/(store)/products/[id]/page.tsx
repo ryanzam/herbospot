@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
 import SkeletonLoader from '@/components/ui/SkeletonLoader';
 import toast from 'react-hot-toast';
 import { FiMinus, FiPlus, FiShoppingCart, FiHeart } from 'react-icons/fi';
