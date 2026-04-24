@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiCheckCircle } from 'react-icons/fi';
 import { useCart } from '@/contexts/CartContext';
 
-export default function CheckoutSuccessPage() {
+const CheckoutSuccessContent = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { clearCart } = useCart();
@@ -96,5 +96,13 @@ export default function CheckoutSuccessPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function CheckoutSuccessPage() {
+    return (
+        <Suspense fallback={<div className="container-custom py-16 text-center">Loading...</div>}>
+            <CheckoutSuccessContent />
+        </Suspense>
     );
 }
