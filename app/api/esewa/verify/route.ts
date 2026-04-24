@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         const updatedOrder = await prisma.order.update({
             where: { id: order.id },
             data: {
-                paymentStatus: PaymentStatus.completed,
+                paymentStatus: PaymentStatus.COMPLETED,
                 orderStatus: OrderStatus.PROCESSING,
                 esewaRefId: refId,
                 paymentDetails: {
