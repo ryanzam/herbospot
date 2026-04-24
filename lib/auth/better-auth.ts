@@ -47,4 +47,5 @@ export const auth = betterAuth({
             clientSecret: process.env.GITHUB_CLIENT_SECRET!,
         },
     },
+    trustedOrigins: ["https://herbospot.vercel.app/"],
 });
