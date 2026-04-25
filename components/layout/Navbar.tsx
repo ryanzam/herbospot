@@ -23,9 +23,11 @@ const Navbar = () => {
   const { totalItems } = useCart();
 
   const session = useSession();
-  const isAuthenticated = !!session;
+  const isAuthenticated = !!session.data;
   const user = session?.data?.user;
   const isAdmin = user?.role === 'admin';
+
+  console.log(session, isAuthenticated, user, isAdmin)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +48,6 @@ const Navbar = () => {
   const navLinks = [
     { href: '/', label: 'Home', icon: FiHome },
     { href: '/products', label: 'Shop', icon: FiGrid },
-    { href: '/orders', label: 'Orders', icon: FiPackage },
   ];
 
   const adminLinks = [
@@ -88,6 +89,7 @@ const Navbar = () => {
             <div className="hidden md:flex items-center space-x-6">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
+
                 return (
                   <Link
                     key={link.href}
