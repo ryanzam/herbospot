@@ -13,16 +13,19 @@ model User {
   email         String   @unique
   image         String?
   role          Role     @default(user)
+  phone         String?
+  address       String?
+  city          String?
+  postalCode    String?
   emailVerified Boolean? @default(false) @map("email_verified")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
-  // orders   Order[]
-  // cart     Cart?
-  sessions Session[]
-  accounts Account[]
-  cart     Cart?
-  orders   Order[]
+  sessions  Session[]
+  accounts  Account[]
+  cart      Cart?
+  orders    Order[]
+  wishlists Wishlist[]
 
   @@map("users")
 }
@@ -187,4 +190,21 @@ model OrderItem {
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@map("order_items")
+}
+
+model Wishlist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @map("user_id") @db.ObjectId
+  productId String   @map("product_id") @db.ObjectId
+  name      String
+  price     Float
+  image     String
+  category  String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@map("wishlists")
 }
