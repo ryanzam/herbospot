@@ -34,11 +34,33 @@ const ProductCard = ({ product, viewMode }: ProductCardProps) => {
         });
     };
 
-    const handleWishlist = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsWishlisted(!isWishlisted);
-        toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+    const handleWishlist = async (e: React.MouseEvent) => {
+        try {
+            e.preventDefault();
+            e.stopPropagation();
+            const response = await fetch(`/api/wishlist`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    price: parseFloat(product.price as any),
+                    productId: product.id,
+                    name: product.name,
+                    image: product.images[0],
+                    category: product.category
+                })
+            })
+            if (!response.ok) {
+                toast.error('Failed to update product');
+                return;
+            }
+            setIsWishlisted(!isWishlisted);
+            toast.success(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+        } catch (error) {
+            console.error('Error fetching wishlist:', error);
+            toast.error('Failed to load wishlist');
+        }
     };
 
     const calculateDiscount = () => {
