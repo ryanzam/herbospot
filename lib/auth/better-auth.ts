@@ -2,7 +2,6 @@ import { betterAuth } from 'better-auth';
 import { prisma } from '@/lib/db/prisma';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import bcrypt from "bcryptjs"
-import { Role } from '@prisma/client';
 
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
